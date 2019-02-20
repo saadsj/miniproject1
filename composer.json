@@ -1,5 +1,6 @@
 {
     "require": {
-        "alrik11es/cowsayphp": "^1.2"
+        "alrik11es/cowsayphp": "^1.2",
+        "csanquer/pdo-service-provider": "~1.1dev"
     }
 }
