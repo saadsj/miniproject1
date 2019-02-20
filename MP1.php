@@ -70,7 +70,9 @@ class recordFactory {
 }
 class record {
     public function __construct(Array $columnNames = null, $cellValues = null) {
-        $dataset = array_combine($columnNames, $cellValues);
+        if (!empty($columnNames) && !empty($cellValues)) {
+            $dataset = array_combine($columnNames, $cellValues);
+        }
         if (isset($dataset)) {
             foreach ($dataset as $key => $value){
                 $this -> createProperty($key, $value);
