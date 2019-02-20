@@ -1,14 +1,16 @@
 <?php
-main::start("so-csv.csv.csv");
+main::start('so-csv.csv.csv');
 class main {
-    public static function start($csvFileName) {
+    public static function start($csvFileName): void
+    {
         $datasets = csv::getRecordsFromCSV($csvFileName);
         $table = html::generateHTMLTable($datasets);
         echo $table;
     }
 }
 class html {
-    public static function generateHTMLTable($datasets) {
+    public static function generateHTMLTable($datasets): string
+    {
         $isFirstDataset = true;
         $table = self::returnHTMLHeader();
         foreach ($datasets as $dataset) {
@@ -24,13 +26,15 @@ class html {
         $table.='</table></body></html>';
         return $table;
     }
-    public static function returnHTMLHeader(){
+    public static function returnHTMLHeader(): string
+    {
         $table = '<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
                     <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script><title>NREL RSF Weather Data 2011</title></head><body><table class="table table-bordered table-striped">';
         return $table;
     }
-    public static function returnLoopString($array, $table){
+    public static function returnLoopString($array, $table): string
+    {
         $table.='<tr>';
         foreach($array as $value){
             $table .= $value;
@@ -40,8 +44,9 @@ class html {
     }
 }
 class csv {
-    public static function getRecordsFromCSV($csvFileName) {
-        $csvFile = fopen($csvFileName, "r");
+    public static function getRecordsFromCSV($csvFileName): array
+    {
+        $csvFile = fopen($csvFileName, 'rb');
         $columnNames = array();
         $isHeaderdataset = true;
         while(!feof($csvFile)){
@@ -58,25 +63,28 @@ class csv {
     }
 }
 class recordFactory {
-    public static function createRecord(Array $columnNames = null, $cellValues = null) {
-        $dataset = new record($columnNames, $cellValues);
-        return $dataset;
+    public static function createRecord(Array $columnNames = null, $cellValues = null): \record
+    {
+        return new record($columnNames, $cellValues);
     }
 }
 class record {
     public function __construct(Array $columnNames = null, $cellValues = null) {
         $dataset = array_combine($columnNames, $cellValues);
-        foreach ($dataset as $key => $value){
-            $this -> createProperty($key, $value);
+        if (isset($dataset)) {
+            foreach ($dataset as $key => $value){
+                $this -> createProperty($key, $value);
+            }
         }
     }
-    public function createProperty($key = 'key', $value = 'value') {
+    public function createProperty($key = 'key', $value = 'value'): void
+    {
         $key = '<th>'. $key . '</th>';
         $value = '<td>'. $value . '</td>';
         $this->{$key} = $value;
     }
-    public function returnRecordAsArray(){
-        $array = (array) $this;
-        return $array;
+    public function returnRecordAsArray(): array
+    {
+        return (array) $this;
     }
 }

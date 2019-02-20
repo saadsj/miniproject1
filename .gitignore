@@ -1,3 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/sonarlint/
 .idea/workspace.xml
+vendor/
+Would skip repository damp-chamber-35563/
